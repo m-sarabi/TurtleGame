@@ -227,6 +227,7 @@ turtle.onkey(left, "a")
 turtle.onkey(right, "Right")
 turtle.onkey(right, "d")
 turtle.onkey(be_done, 'Escape')
+turtle.onkey(lambda x=0, y=0: start(x, y), 'space')
 
 turtle.tracer(0)
 start_btn = turtle.Turtle()
