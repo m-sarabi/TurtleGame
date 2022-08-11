@@ -160,6 +160,7 @@ box.pencolor('blue')
 box.fillcolor('yellow')
 
 box.shape('square')
+box.shapesize(1.5, 1.5)
 box.penup()
 box.goto(0, 0)
 
