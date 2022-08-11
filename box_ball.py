@@ -137,7 +137,7 @@ screen = turtle.Screen()
 screen.setup(800, 700)
 # turtle.screensize(600, 600, 'lightblue')
 turtle.resetscreen()
-screen.cv._rootwindow.resizable(False, True)
+screen.cv._rootwindow.resizable(False, False)
 
 balls = []
 
