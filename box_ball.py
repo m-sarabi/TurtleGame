@@ -8,7 +8,8 @@ last_ball = (None, None)
 t = time.time()
 ball_t = time.time()
 first_tick = time.time()
-spawn_time = 3.5
+spawn_rate = 4
+spawn_time = spawn_rate
 extra_time = 8
 started = False
 turtle.tracer(0, 0)
@@ -95,8 +96,8 @@ def draw_ball():
     balls[-1].color('red', 'red')
     balls[-1].penup()
     balls[-1].speed(0)
-    balls[-1].setx(random.randint(-300 // 50, 300 // 50) * 50)
-    balls[-1].sety(random.randint(-300 // 50, 300 // 50) * 50)
+    balls[-1].setx(random.randint(-350 // 50, 350 // 50) * 50)
+    balls[-1].sety(random.randint(-300 // 50, 250 // 50) * 50)
     balls[-1].showturtle()
     last_ball = (None, None)
 
@@ -107,12 +108,12 @@ def ball_process():
     if now - ball_t >= spawn_time or balls == []:
         draw_ball()
         ball_t = now
-        spawn_time = (0.95 ** ((now - first_tick) // 10)) * 5
+        spawn_time = spawn_rate - (now - first_tick) / 50
     timer_board.clear()
     timer = extra_time - (now - first_tick)
     timer_board.write(f'Time: {max([0, round(timer, 1)])}', False, font=('Arial', 14, 'normal'))
     if timer > 0:
-        screen.ontimer(ball_process, 50)
+        screen.ontimer(ball_process, 10)
     if timer <= 0:
         finished = True
     screen.update()
@@ -133,8 +134,10 @@ def be_done():
 
 
 screen = turtle.Screen()
-screen.cv._rootwindow.resizable(False, False)
-turtle.screensize(600, 600, 'lightblue')
+screen.setup(800, 700)
+# turtle.screensize(600, 600, 'lightblue')
+turtle.resetscreen()
+screen.cv._rootwindow.resizable(False, True)
 
 balls = []
 
@@ -149,7 +152,7 @@ timer_board = turtle.Turtle()
 timer_board.hideturtle()
 timer_board.speed(0)
 timer_board.penup()
-timer_board.goto(270, 300)
+timer_board.goto(300, 300)
 timer_board.write(f'Time: {extra_time}', False, font=('Arial', 14, 'normal'))
 
 box = turtle.Turtle()
@@ -163,6 +166,55 @@ box.shape('square')
 box.shapesize(1.5, 1.5)
 box.penup()
 box.goto(0, 0)
+
+# drawing a border
+border = turtle.Turtle()
+border.hideturtle()
+border.penup()
+border.goto(-382, -330)
+dist = 760
+dash = True
+while dist > 0:
+    if dash:
+        border.pendown()
+    else:
+        border.penup()
+    dash = not dash
+    border.forward(min([dist, 10]))
+    dist -= 10
+dist = 610
+dash = True
+border.left(90)
+while dist > 0:
+    if dash:
+        border.pendown()
+    else:
+        border.penup()
+    dash = not dash
+    border.forward(min([dist, 10]))
+    dist -= 10
+dist = 760
+dash = True
+border.left(90)
+while dist > 0:
+    if dash:
+        border.pendown()
+    else:
+        border.penup()
+    dash = not dash
+    border.forward(min([dist, 10]))
+    dist -= 10
+dist = 610
+dash = True
+border.left(90)
+while dist > 0:
+    if dash:
+        border.pendown()
+    else:
+        border.penup()
+    dash = not dash
+    border.forward(min([dist, 10]))
+    dist -= 10
 
 turtle.listen()
 turtle.onkey(up, "Up")
