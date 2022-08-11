@@ -122,6 +122,7 @@ run_check = True
 screen = turtle.Screen()
 screen.screensize(600, 600, 'gainsboro')
 turtle.hideturtle()
+turtle.tracer(0)
 
 rock = turtle.Turtle()
 paper = turtle.Turtle()
