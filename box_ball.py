@@ -41,10 +41,10 @@ def move(x, y):
         new_pos[0] = -350
     if new_pos[0] < -350:
         new_pos[0] = 350
-    if new_pos[1] > 300:
+    if new_pos[1] > 250:
         new_pos[1] = -300
     if new_pos[1] < -300:
-        new_pos[1] = 300
+        new_pos[1] = 250
     box.goto(new_pos[0], new_pos[1])
     score_check()
 
