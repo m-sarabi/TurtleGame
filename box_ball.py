@@ -135,6 +135,7 @@ def be_done():
 
 screen = turtle.Screen()
 screen.setup(800, 700)
+turtle.bgcolor('lightblue')
 # turtle.screensize(600, 600, 'lightblue')
 turtle.resetscreen()
 screen.cv._rootwindow.resizable(False, False)
