@@ -1,7 +1,33 @@
 import random
 import time
 import turtle
-import winsound
+
+try:
+    import winsound
+
+
+    def play_sound(sound):
+        winsound.PlaySound(sound, winsound.SND_ASYNC)
+except ImportError:
+    try:
+        import playsound
+
+
+        def play_sound(sound):
+            playsound.playsound(sound)
+    except ImportError:
+        screen = turtle.Screen()
+        screen.setup(400, 300)
+        turtle.bgcolor('black')
+        turtle.hideturtle()
+        turtle.speed(0)
+        turtle.penup()
+        turtle.pencolor('white')
+        turtle.goto(-20, -20)
+        turtle.write('You need to install playsound:\n\n       pip install playsound', False, align='center',
+                     font=('Arial', 14, 'normal'))
+        turtle.done()
+        quit()
 
 wait_time = 0.05
 scores = 0
@@ -25,7 +51,7 @@ def score_check():
         if box_pos == ball_pos and ball_pos != last_ball:
             last_ball = ball_pos
             scores += 1
-            winsound.PlaySound('./sounds/eat.wav', winsound.SND_ASYNC)
+            play_sound('./sounds/eat.wav')
             sc_board.clear()
             sc_board.write(f'Score: {scores}', False, font=('Arial', 14, 'normal'))
             balls[0].hideturtle()
