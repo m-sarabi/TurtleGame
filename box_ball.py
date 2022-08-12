@@ -8,9 +8,9 @@ last_ball = (None, None)
 t = time.time()
 ball_t = time.time()
 first_tick = time.time()
-spawn_rate = 4
+spawn_rate = 2
 spawn_time = spawn_rate
-extra_time = 8
+extra_time = 30
 started = False
 turtle.tracer(0, 0)
 finished = False
@@ -28,7 +28,7 @@ def score_check():
             sc_board.write(f'Score: {scores}', False, font=('Arial', 14, 'normal'))
             balls[0].hideturtle()
             balls[0].clear()
-            extra_time += 2.5
+            extra_time += 1.75
             del balls[0]
 
 
@@ -105,10 +105,9 @@ def draw_ball():
 def ball_process():
     global ball_t, spawn_time, extra_time, finished
     now = time.time()
-    if now - ball_t >= spawn_time or balls == []:
+    if now - ball_t >= spawn_rate or balls == []:
         draw_ball()
         ball_t = now
-        spawn_time = spawn_rate - (now - first_tick) / 50
     timer_board.clear()
     timer = extra_time - (now - first_tick)
     timer_board.write(f'Time: {max([0, round(timer, 1)])}', False, font=('Arial', 14, 'normal'))
