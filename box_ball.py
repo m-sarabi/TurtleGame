@@ -217,14 +217,14 @@ while dist > 0:
     dist -= 10
 
 turtle.listen()
-turtle.onkey(up, "Up")
-turtle.onkey(up, "w")
-turtle.onkey(down, "Down")
-turtle.onkey(down, "s")
-turtle.onkey(left, "Left")
-turtle.onkey(left, "a")
-turtle.onkey(right, "Right")
-turtle.onkey(right, "d")
+turtle.onkeypress(up, "Up")
+turtle.onkeypress(up, "w")
+turtle.onkeypress(down, "Down")
+turtle.onkeypress(down, "s")
+turtle.onkeypress(left, "Left")
+turtle.onkeypress(left, "a")
+turtle.onkeypress(right, "Right")
+turtle.onkeypress(right, "d")
 turtle.onkey(be_done, 'Escape')
 turtle.onkey(lambda x=0, y=0: start(x, y), 'space')
 
