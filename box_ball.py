@@ -1,6 +1,7 @@
 import random
 import time
 import turtle
+import winsound
 
 wait_time = 0.05
 scores = 0
@@ -8,7 +9,7 @@ last_ball = (None, None)
 t = time.time()
 ball_t = time.time()
 first_tick = time.time()
-spawn_rate = 2
+spawn_rate = 2.1
 spawn_time = spawn_rate
 extra_time = 30
 started = False
@@ -24,11 +25,12 @@ def score_check():
         if box_pos == ball_pos and ball_pos != last_ball:
             last_ball = ball_pos
             scores += 1
+            winsound.PlaySound('./sounds/eat.wav', winsound.SND_ASYNC)
             sc_board.clear()
             sc_board.write(f'Score: {scores}', False, font=('Arial', 14, 'normal'))
             balls[0].hideturtle()
             balls[0].clear()
-            extra_time += 1.75
+            extra_time += 1.6
             del balls[0]
 
 
