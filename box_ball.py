@@ -1,6 +1,7 @@
 import random
 import time
 import turtle
+import drawings
 
 # for playing sounds
 try:
@@ -32,6 +33,14 @@ except ImportError:
                      font=('Arial', 14, 'normal'))
         turtle.done()
         quit()
+
+
+def shape_maker(points, colors, name):
+    shape = turtle.Shape('compound')
+    for i, path in enumerate(points):
+        points = path + [path[0]]
+        shape.addcomponent(points, colors[i])
+    screen.register_shape(name, shape)
 
 
 class PlayGame:
@@ -87,7 +96,6 @@ class PlayGame:
                     hs_board.clear()
                     hs_board.write(f'High Score: {self.scores}', False, font=('Arial', 14, 'normal'))
 
-
     def move(self, x, y):
         if self.finished is True:
             return
@@ -142,8 +150,9 @@ class PlayGame:
             balls[0].clear()
             del balls[0]
         balls.append(turtle.Turtle(visible=False))
-        balls[-1].shape('circle')
-        balls[-1].color('red', 'red')
+        balls[-1].shape('apple')
+        balls[-1].shapesize(0.4, 0.4)
+        balls[-1].left(90)
         balls[-1].penup()
         balls[-1].speed(0)
         balls[-1].setx(random.randint(-350 // 50, 350 // 50) * 50)
@@ -264,6 +273,58 @@ turtle.tracer(0, 0)
 
 balls = []
 
+# drawing a border
+border = turtle.Turtle()
+border.hideturtle()
+border.penup()
+border.goto(-382, -330)
+border.fillcolor('skyblue')
+border.begin_fill()
+dist = 760
+dash = True
+while dist > 0:
+    if dash:
+        border.pendown()
+    else:
+        border.penup()
+    dash = not dash
+    border.forward(min([dist, 10]))
+    dist -= 10
+dist = 610
+dash = True
+border.left(90)
+while dist > 0:
+    if dash:
+        border.pendown()
+    else:
+        border.penup()
+    dash = not dash
+    border.forward(min([dist, 10]))
+    dist -= 10
+dist = 760
+dash = True
+border.left(90)
+while dist > 0:
+    if dash:
+        border.pendown()
+    else:
+        border.penup()
+    dash = not dash
+    border.forward(min([dist, 10]))
+    dist -= 10
+dist = 610
+dash = True
+border.left(90)
+while dist > 0:
+    if dash:
+        border.pendown()
+    else:
+        border.penup()
+    dash = not dash
+    border.forward(min([dist, 10]))
+    dist -= 10
+border.end_fill()
+
 sc_board = turtle.Turtle()
 sc_board.hideturtle()
 sc_board.speed(0)
@@ -304,54 +365,7 @@ box.shape(image_up)
 box.shapesize(2, 2)
 box.penup()
 
-# drawing a border
-border = turtle.Turtle()
-border.hideturtle()
-border.penup()
-border.goto(-382, -330)
-dist = 760
-dash = True
-while dist > 0:
-    if dash:
-        border.pendown()
-    else:
-        border.penup()
-    dash = not dash
-    border.forward(min([dist, 10]))
-    dist -= 10
-dist = 610
-dash = True
-border.left(90)
-while dist > 0:
-    if dash:
-        border.pendown()
-    else:
-        border.penup()
-    dash = not dash
-    border.forward(min([dist, 10]))
-    dist -= 10
-dist = 760
-dash = True
-border.left(90)
-while dist > 0:
-    if dash:
-        border.pendown()
-    else:
-        border.penup()
-    dash = not dash
-    border.forward(min([dist, 10]))
-    dist -= 10
-dist = 610
-dash = True
-border.left(90)
-while dist > 0:
-    if dash:
-        border.pendown()
-    else:
-        border.penup()
-    dash = not dash
-    border.forward(min([dist, 10]))
-    dist -= 10
+shape_maker(drawings.apple_points, drawings.apple_colors, 'apple')
 
 screen.update()
 
