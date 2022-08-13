@@ -33,18 +33,13 @@ except ImportError:
         turtle.done()
         quit()
 
-# constants
-
-
-turtle.tracer(0, 0)
-
 
 class PlayGame:
     def __init__(self):
         self.wait_time = 0.05
         self.spawn_rate = 2.1
-        self.spawn_time = self.spawn_rate
-        self.extra_time = 30
+        self.initial_time = 30
+        self.extra_time = self.initial_time
         self.started = False
         self.finished = False
         self.scores = 0
@@ -52,6 +47,11 @@ class PlayGame:
         self.t = time.time()
         self.ball_t = time.time()
         self.first_tick = time.time()
+        self.start_btn = turtle.Turtle()
+        self.start_btn.hideturtle()
+        self.play_again_btn = turtle.Turtle()
+        self.play_again_btn.hideturtle()
+        self.high_score = 0
 
         turtle.listen()
         turtle.onkey(be_done, 'Escape')
@@ -63,12 +63,10 @@ class PlayGame:
         turtle.onkeypress(self.left, "a")
         turtle.onkeypress(self.right, "Right")
         turtle.onkeypress(self.right, "d")
-        turtle.onkey(lambda x=0, y=0: self.start(x, y), 'space')
-        turtle.onscreenclick(self.start)
-        timer_board.write(f'Time: {self.extra_time}', False, font=('Arial', 14, 'normal'))
-
-    def new_game(self):
-        box.goto(0, 0)
+        turtle.onkey(self.start, 'space')
+        turtle.onscreenclick(self.click_events)
+        timer_board.write(f'Time: {self.initial_time}', False, font=('Arial', 14, 'normal'))
+        self.new_game()
 
     def score_check(self):
         if len(balls) > 0:
@@ -84,6 +82,11 @@ class PlayGame:
                 balls[0].clear()
                 self.extra_time += 1.6
                 del balls[0]
+                if self.scores > self.high_score:
+                    self.high_score = self.scores
+                    hs_board.clear()
+                    hs_board.write(f'High Score: {self.scores}', False, font=('Arial', 14, 'normal'))
+
 
     def move(self, x, y):
         if self.finished is True:
@@ -160,15 +163,91 @@ class PlayGame:
             screen.ontimer(self.ball_process, 10)
         if timer <= 0:
             self.finished = True
+            self.game_over()
         screen.update()
 
-    def start(self, x, y):
-        if -50 < x < 50 and -20 < y < 20 and self.started is False:
-            self.started = True
-            start_btn.clear()
-            box.showturtle()
-            self.first_tick = time.time()
-            self.ball_process()
+    def click_events(self, x, y):
+        if -50 < x < 50 and -20 < y < 20 and self.started is False and self.finished is False:
+            self.start()
+        if -75 < x < 75 and -25 < y < 25 and self.started is False and self.finished is True:
+            self.play_again_btn.clear()
+            turtle.update()
+            self.new_game()
+
+    def start(self):
+        self.started = True
+        self.start_btn.clear()
+        box.showturtle()
+        self.first_tick = time.time()
+        self.ball_process()
+
+    def game_over(self):
+        self.started = False
+
+        # play again button
+        self.play_again_btn.speed(0)
+        self.play_again_btn.pensize(2)
+        self.play_again_btn.color('black', 'darkred')
+        self.play_again_btn.penup()
+        self.play_again_btn.goto(-75, -25)
+        self.play_again_btn.begin_fill()
+        self.play_again_btn.pendown()
+        self.play_again_btn.forward(150)
+        self.play_again_btn.left(90)
+        self.play_again_btn.forward(50)
+        self.play_again_btn.left(90)
+        self.play_again_btn.forward(150)
+        self.play_again_btn.left(90)
+        self.play_again_btn.forward(50)
+        self.play_again_btn.left(90)
+        self.play_again_btn.penup()
+        self.play_again_btn.end_fill()
+        self.play_again_btn.hideturtle()
+        self.play_again_btn.speed(0)
+        self.play_again_btn.pencolor('white')
+        self.play_again_btn.goto(-69, -14)
+        self.play_again_btn.write('Play Again', False, font=('Arial', 20, 'bold'))
+
+    def new_game(self):
+        box.goto(0, 0)
+        box.shape(image_up)
+        while len(balls) > 0:
+            balls[0].hideturtle()
+            balls[0].clear()
+            del balls[0]
+        box.hideturtle()
+        self.extra_time = self.initial_time
+        self.started = False
+        self.finished = False
+        self.scores = 0
+        self.last_ball = (None, None)
+
+        self.start_btn = turtle.Turtle()
+        self.start_btn.speed(0)
+        self.start_btn.pensize(2)
+        self.start_btn.color('black', 'darkgreen')
+        self.start_btn.penup()
+        self.start_btn.goto(-50, -20)
+        self.start_btn.begin_fill()
+        self.start_btn.pendown()
+        self.start_btn.forward(100)
+        self.start_btn.left(90)
+        self.start_btn.forward(40)
+        self.start_btn.left(90)
+        self.start_btn.forward(100)
+        self.start_btn.left(90)
+        self.start_btn.forward(40)
+        self.start_btn.left(90)
+        self.start_btn.penup()
+        self.start_btn.end_fill()
+        self.start_btn.hideturtle()
+        self.start_btn.speed(0)
+        self.start_btn.pencolor('white')
+        self.start_btn.goto(-28, -14)
+        self.start_btn.write('Start', False, font=('Arial', 18, 'bold'))
+        sc_board.clear()
+        sc_board.write('Score: 0', False, font=('Arial', 14, 'normal'))
+        turtle.update()
 
 
 def be_done():
@@ -181,6 +260,7 @@ turtle.bgcolor('lightblue')
 # turtle.screensize(600, 600, 'lightblue')
 turtle.resetscreen()
 screen.cv._rootwindow.resizable(False, False)
+turtle.tracer(0, 0)
 
 balls = []
 
@@ -190,6 +270,14 @@ sc_board.speed(0)
 sc_board.penup()
 sc_board.goto(-380, 300)
 sc_board.write('Score: 0', False, font=('Arial', 14, 'normal'))
+
+# high score board
+hs_board = turtle.Turtle()
+hs_board.hideturtle()
+hs_board.speed(0)
+hs_board.penup()
+hs_board.goto(-60, 300)
+hs_board.write('High Score: 0', False, font=('Arial', 14, 'normal'))
 
 timer_board = turtle.Turtle()
 timer_board.hideturtle()
@@ -265,33 +353,8 @@ while dist > 0:
     border.forward(min([dist, 10]))
     dist -= 10
 
-turtle.tracer(0)
-start_btn = turtle.Turtle()
-start_btn.speed(0)
-start_btn.pensize(2)
-start_btn.color('black', 'darkgreen')
-start_btn.penup()
-start_btn.begin_fill()
-start_btn.goto(-50, -20)
-start_btn.pendown()
-start_btn.forward(100)
-start_btn.left(90)
-start_btn.forward(40)
-start_btn.left(90)
-start_btn.forward(100)
-start_btn.left(90)
-start_btn.forward(40)
-start_btn.left(90)
-start_btn.penup()
-start_btn.end_fill()
-start_btn.hideturtle()
-start_btn.speed(0)
-start_btn.pencolor('white')
-start_btn.goto(-28, -14)
-start_btn.write('Start', False, font=('Arial', 18, 'bold'))
+screen.update()
 
 game = PlayGame()
-
-screen.update()
 
 turtle.Screen().mainloop()
