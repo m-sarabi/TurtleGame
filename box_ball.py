@@ -61,6 +61,7 @@ class PlayGame:
         self.play_again_btn = turtle.Turtle()
         self.play_again_btn.hideturtle()
         self.high_score = 0
+        self.last_high_score = 0
 
         turtle.listen()
         turtle.onkey(be_done, 'Escape')
@@ -216,6 +217,9 @@ class PlayGame:
         self.play_again_btn.pencolor('white')
         self.play_again_btn.goto(-69, -14)
         self.play_again_btn.write('Play Again', False, font=('Arial', 20, 'bold'))
+        if self.high_score > self.last_high_score:
+            self.last_high_score = self.high_score
+            play_sound('sounds/King_of_the_World_Notif.wav')
 
     def new_game(self):
         box.goto(0, 0)
