@@ -168,12 +168,12 @@ class PlayGame:
         timer_board.clear()
         timer = self.extra_time - (now - self.first_tick)
         timer_board.write(f'Time: {max([0, round(timer, 1)])}', False, font=('Arial', 14, 'normal'))
-        if timer > 0:
-            screen.ontimer(self.ball_process, 10)
         if timer <= 0:
             self.finished = True
+        if self.finished is True:
             self.game_over()
         screen.update()
+        screen.ontimer(self.ball_process)
 
     def click_events(self, x, y):
         if -50 < x < 50 and -20 < y < 20 and self.started is False and self.finished is False:
@@ -187,8 +187,8 @@ class PlayGame:
         self.started = True
         self.start_btn.clear()
         box.showturtle()
-        self.first_tick = time.time()
         self.ball_process()
+        self.first_tick = time.time()
 
     def game_over(self):
         self.started = False
@@ -269,9 +269,16 @@ turtle.bgcolor('lightblue')
 # turtle.screensize(600, 600, 'lightblue')
 turtle.resetscreen()
 screen.cv._rootwindow.resizable(False, False)
-turtle.tracer(0, 0)
+screen.tracer(0, 0)
 
 balls = []
+shape_maker(drawings.apple_points, drawings.apple_colors, 'apple')
+shape_maker(drawings.grass_1_points, drawings.grass_1_colors, 'grass1')
+shape_maker(drawings.grass_2_points, drawings.grass_2_colors, 'grass2')
+shape_maker(drawings.grass_3_points, drawings.grass_3_colors, 'grass3')
+shape_maker(drawings.grass_4_points, drawings.grass_4_colors, 'grass4')
+shape_maker(drawings.grass_5_points, drawings.grass_5_colors, 'grass5')
+shape_maker(drawings.grass_6_points, drawings.grass_6_colors, 'grass6')
 
 # drawing a border
 border = turtle.Turtle()
@@ -325,6 +332,21 @@ while dist > 0:
     dist -= 10
 border.end_fill()
 
+grass_list = ['grass1', 'grass2', 'grass3', 'grass4', 'grass5', 'grass6']
+
+grasses = []
+for i in grass_list:
+    grasses.append(turtle.Turtle())
+    grasses[-1].shape(i)
+for grass in grasses:
+    grass.penup()
+    for i in range(random.randint(1, 10)):
+        grass.setheading(random.randint(80, 100))
+        grass.shapesize(round(random.uniform(0.08, 0.12), 2))
+        grass.goto(random.randint(-350, 350), random.randint(-300, 250))
+        grass.stamp()
+    grass.hideturtle()
+
 sc_board = turtle.Turtle()
 sc_board.hideturtle()
 sc_board.speed(0)
@@ -365,10 +387,8 @@ box.shape(image_up)
 box.shapesize(2, 2)
 box.penup()
 
-shape_maker(drawings.apple_points, drawings.apple_colors, 'apple')
-
 screen.update()
 
 game = PlayGame()
 
-turtle.Screen().mainloop()
+screen.mainloop()
