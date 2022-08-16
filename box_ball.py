@@ -271,7 +271,6 @@ def be_done():
 def add_image(name):
     var_name = name[1]
     globals()[var_name] = os.path.join(image_dir, name[0])
-    print(globals()[var_name])
     screen.addshape(globals()[var_name])
 
 
@@ -346,7 +345,6 @@ grass_names = os.listdir(image_dir)
 grass_names = [_ for _ in grass_names if 'grass' in _]
 grass_vars = [_.rsplit('.')[0].replace('-', '_') for _ in grass_names]
 grasses = zip(grass_names, grass_vars)
-print(grass_names)
 
 for i in grasses:
     add_image(i)
