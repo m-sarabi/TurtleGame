@@ -2,22 +2,23 @@ import random
 import time
 import turtle
 import drawings
+import os
 
 # for playing sounds
 try:
     import winsound
 
 
-    def play_sound(sound):
-        winsound.PlaySound(sound, winsound.SND_ASYNC)
+    def play_sound(name):
+        winsound.PlaySound(os.path.join(sound_dir, name), winsound.SND_ASYNC)
 except ImportError:
     try:
         import pygame
 
 
-        def play_sound(sound):
+        def play_sound(name):
             pygame.mixer.init()
-            pygame.mixer.music.load(sound)
+            pygame.mixer.music.load(os.path.join(sound_dir, name))
             pygame.mixer.music.play()
 
     except ImportError:
@@ -85,7 +86,7 @@ class PlayGame:
             if box_pos == ball_pos and ball_pos != self.last_ball:
                 self.last_ball = ball_pos
                 self.scores += 1
-                play_sound('sounds/eat.wav')
+                play_sound('eat.wav')
                 sc_board.clear()
                 sc_board.write(f'Score: {self.scores}', False, font=('Arial', 14, 'normal'))
                 balls[0].hideturtle()
@@ -171,8 +172,8 @@ class PlayGame:
         timer_board.write(f'Time: {max([0, round(timer, 1)])}', False, font=('Arial', 14, 'normal'))
         if timer <= 0:
             self.finished = True
-        if self.finished is True:
             self.game_over()
+            return
         screen.update()
         screen.ontimer(self.ball_process)
 
@@ -180,7 +181,10 @@ class PlayGame:
         if -50 < x < 50 and -20 < y < 20 and self.started is False and self.finished is False:
             self.start()
         if -75 < x < 75 and -25 < y < 25 and self.started is False and self.finished is True:
+            self.finished = False
+            self.started = False
             self.play_again_btn.clear()
+            self.extra_time = self.initial_time
             turtle.update()
             self.new_game()
 
@@ -188,8 +192,8 @@ class PlayGame:
         self.started = True
         self.start_btn.clear()
         box.showturtle()
-        self.ball_process()
         self.first_tick = time.time()
+        self.ball_process()
 
     def game_over(self):
         self.started = False
@@ -229,9 +233,6 @@ class PlayGame:
             balls[0].clear()
             del balls[0]
         box.hideturtle()
-        self.extra_time = self.initial_time
-        self.started = False
-        self.finished = False
         self.scores = 0
         self.last_ball = (None, None)
 
@@ -266,6 +267,17 @@ class PlayGame:
 def be_done():
     turtle.bye()
 
+
+def add_image(name):
+    var_name = name[1]
+    globals()[var_name] = os.path.join(image_dir, name[0])
+    print(globals()[var_name])
+    screen.addshape(globals()[var_name])
+
+
+main_dir = os.path.split(os.path.abspath(__file__))[0]
+sound_dir = os.path.join(main_dir, 'sounds')
+image_dir = os.path.join(main_dir, 'images')
 
 screen = turtle.Screen()
 screen.setup(800, 700)
@@ -336,20 +348,26 @@ while dist > 0:
     dist -= 10
 border.end_fill()
 
+grass_names = os.listdir(image_dir)
+grass_names = [_ for _ in grass_names if 'grass' in _]
+grass_vars = [_.rsplit('.')[0].replace('-', '_') for _ in grass_names]
+grasses = zip(grass_names, grass_vars)
+print(grass_names)
+
+for i in grasses:
+    add_image(i)
+
+grass_names = [_.rsplit('.') for _ in grass_names]
+
 grass_list = ['grass1', 'grass2', 'grass3', 'grass4', 'grass5', 'grass6']
 
 grasses = []
-for i in grass_list:
-    grasses.append(turtle.Turtle())
-    grasses[-1].shape(i)
-for grass in grasses:
-    grass.penup()
-    for i in range(random.randint(1, 10)):
-        grass.setheading(random.randint(80, 100))
-        grass.shapesize(round(random.uniform(0.08, 0.12), 2))
-        grass.goto(random.randint(-350, 350), random.randint(-300, 250))
-        grass.stamp()
-    grass.hideturtle()
+for grass in grass_vars:
+    for i in range(random.randint(10, 20)):
+        grasses.append(turtle.Turtle())
+        grasses[-1].penup()
+        grasses[-1].shape(globals()[grass])
+        grasses[-1].goto(random.randint(-350, 350), random.randint(-300, 250))
 
 sc_board = turtle.Turtle()
 sc_board.hideturtle()
