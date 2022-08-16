@@ -289,12 +289,6 @@ screen.tracer(0, 0)
 
 balls = []
 shape_maker(drawings.apple_points, drawings.apple_colors, 'apple')
-shape_maker(drawings.grass_1_points, drawings.grass_1_colors, 'grass1')
-shape_maker(drawings.grass_2_points, drawings.grass_2_colors, 'grass2')
-shape_maker(drawings.grass_3_points, drawings.grass_3_colors, 'grass3')
-shape_maker(drawings.grass_4_points, drawings.grass_4_colors, 'grass4')
-shape_maker(drawings.grass_5_points, drawings.grass_5_colors, 'grass5')
-shape_maker(drawings.grass_6_points, drawings.grass_6_colors, 'grass6')
 
 # drawing a border
 border = turtle.Turtle()
@@ -363,7 +357,7 @@ grass_list = ['grass1', 'grass2', 'grass3', 'grass4', 'grass5', 'grass6']
 
 grasses = []
 for grass in grass_vars:
-    for i in range(random.randint(10, 20)):
+    for i in range(random.randint(5, 15)):
         grasses.append(turtle.Turtle())
         grasses[-1].penup()
         grasses[-1].shape(globals()[grass])
