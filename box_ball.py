@@ -223,7 +223,7 @@ class PlayGame:
         self.play_again_btn.write('Play Again', False, font=('Arial', 20, 'bold'))
         if self.high_score > self.last_high_score:
             self.last_high_score = self.high_score
-            play_sound('sounds/King_of_the_World_Notif.wav')
+            play_sound('King_of_the_World_Notif.wav')
 
     def new_game(self):
         box.goto(0, 0)
@@ -280,7 +280,6 @@ image_dir = os.path.join(main_dir, 'images')
 screen = turtle.Screen()
 screen.setup(800, 700)
 turtle.bgcolor('lightblue')
-# turtle.screensize(600, 600, 'lightblue')
 turtle.resetscreen()
 screen.cv._rootwindow.resizable(False, False)
 screen.tracer(0, 0)
