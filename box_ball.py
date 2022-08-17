@@ -268,9 +268,8 @@ def be_done():
     turtle.bye()
 
 
-def add_image(name):
-    var_name = name[1]
-    globals()[var_name] = os.path.join(image_dir, name[0])
+def add_image(name, var_name):
+    globals()[var_name] = os.path.join(image_dir, name)
     screen.addshape(globals()[var_name])
 
 
@@ -289,13 +288,20 @@ screen.tracer(0, 0)
 balls = []
 shape_maker(drawings.apple_points, drawings.apple_colors, 'apple')
 
+# background image
+background = turtle.Turtle()
+background.penup()
+background.backward(2)
+background.right(90)
+background.forward(25)
+add_image('background.gif', 'bg_shape')
+background.shape(globals()['bg_shape'])
+
 # drawing a border
 border = turtle.Turtle()
 border.hideturtle()
 border.penup()
 border.goto(-382, -330)
-border.fillcolor('skyblue')
-border.begin_fill()
 dist = 760
 dash = True
 while dist > 0:
@@ -339,27 +345,6 @@ while dist > 0:
     dash = not dash
     border.forward(min([dist, 10]))
     dist -= 10
-border.end_fill()
-
-grass_names = os.listdir(image_dir)
-grass_names = [_ for _ in grass_names if 'grass' in _]
-grass_vars = [_.rsplit('.')[0].replace('-', '_') for _ in grass_names]
-grasses = zip(grass_names, grass_vars)
-
-for i in grasses:
-    add_image(i)
-
-grass_names = [_.rsplit('.') for _ in grass_names]
-
-grass_list = ['grass1', 'grass2', 'grass3', 'grass4', 'grass5', 'grass6']
-
-grasses = []
-for grass in grass_vars:
-    for i in range(random.randint(5, 15)):
-        grasses.append(turtle.Turtle())
-        grasses[-1].penup()
-        grasses[-1].shape(globals()[grass])
-        grasses[-1].goto(random.randint(-350, 350), random.randint(-300, 250))
 
 sc_board = turtle.Turtle()
 sc_board.hideturtle()
