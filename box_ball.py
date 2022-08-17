@@ -6,14 +6,14 @@ import os
 
 # for playing sounds
 try:
-    import winsound55
+    import winsound
 
 
     def play_sound(name):
         winsound.PlaySound(os.path.join(sound_dir, name), winsound.SND_ASYNC)
 except ImportError:
     try:
-        import pygame55
+        import pygame
 
 
         def play_sound(name):
