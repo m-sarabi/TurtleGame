@@ -6,14 +6,14 @@ import os
 
 # for playing sounds
 try:
-    import winsound
+    import winsound55
 
 
     def play_sound(name):
         winsound.PlaySound(os.path.join(sound_dir, name), winsound.SND_ASYNC)
 except ImportError:
     try:
-        import pygame
+        import pygame55
 
 
         def play_sound(name):
@@ -23,15 +23,17 @@ except ImportError:
 
     except ImportError:
         screen = turtle.Screen()
-        screen.setup(400, 300)
+        turtle.listen()
+        turtle.onkey(quit, 'Escape')
+        screen.setup(500, 400)
         turtle.bgcolor('black')
         turtle.hideturtle()
         turtle.speed(0)
         turtle.penup()
         turtle.pencolor('white')
         turtle.goto(-20, -20)
-        turtle.write('You need to install playsound:\n\n       pip install pygame', False, align='center',
-                     font=('Arial', 14, 'normal'))
+        turtle.write('You need to install pygame:\n\n       pip install pygame', False, align='center',
+                     font=('Arial', 18, 'normal'))
         turtle.done()
         quit()
 
